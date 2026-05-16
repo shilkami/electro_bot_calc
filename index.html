@@ -146,12 +146,16 @@
 
         async function sendApiRequest(url, bodyData, resId, outId, formatFn) {
             try {
-                // Вставляем ссылку Cloudflare прямо перед url:
-                const baseUrl = 'litigator-atlantic-aloe.ngrok-free.dev';
+                // ИСПРАВЛЕНО: Добавлен протокол https://
+                const baseUrl = 'https://litigator-atlantic-aloe.ngrok-free.dev';
                 
                 const response = await fetch(baseUrl + url, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    // ИСПРАВЛЕНО: Добавлен заголовок для пропуска предупреждения ngrok
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
                     body: JSON.stringify(bodyData)
                 });
                 if (response.ok) {
@@ -211,7 +215,6 @@
             );
         }
 
-        // Новая JS функция для отправки запроса пересчета шины в круглый провод
         function calcWireFromTire() {
             const data = {
                 width: parseFloat(document.getElementById('tire_width').value),
